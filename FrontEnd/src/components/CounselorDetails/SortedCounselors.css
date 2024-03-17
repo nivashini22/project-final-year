@@ -1,0 +1,45 @@
+/* SortedList.css */
+
+/* Style for the container div */
+.sdiv {
+    width: 80%;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #ecf0f1;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Style for the search input */
+  .sinput {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #bdc3c7;
+    border-radius: 4px;
+    font-size: 16px;
+  }
+  .counimage{
+    
+    width: 100%;
+    max-height: 450px; /* Adjust the maximum height as needed */
+    height: auto;
+    border-radius: 8px;
+    overflow: hidden;
+    object-fit: cover;
+      
+   
+  }
+  .counheading{
+    text-align: center;
+    font-size: 36px;
+    color: #111111;
+    margin-bottom: 20px;
+    font-family: 'Arial', sans-serif;
+    padding: 15px;
+  }
+  
+  
+  /* Style for the LawyersList component within SortedList */
+  /* You can import LawyersList.css here if you want to reuse the styles */
+  

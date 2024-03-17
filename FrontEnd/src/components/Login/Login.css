@@ -1,0 +1,50 @@
+Login.css
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.login-card {
+  max-width: 400px;
+  width: 100%;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: rgba(110, 110, 110, 0.7); /* Adjust the alpha channel (last value) for transparency */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.card-title {
+  text-align: center;
+  color: #1d1c1c;
+  margin-bottom: 20px;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-control {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.5); /* Transparent border */
+  border-radius: 4px;
+  background-color: rgba(255, 255, 255, 0.1); /* Transparent background */
+  color: #fff; /* Text color */
+}
+
+.btn-primary {
+  width: 100%; /* Make the button full-width */
+  padding: 10px; /* Adjust padding to change button size */
+  border: none; /* Remove border */
+  border-radius: 20px; /* Adjust the border-radius for rounded corners */
+  background-color: rgba(20, 20, 20, 0.5); /* Transparent background */
+  color: #fff;
+  font-size: 20px;
+}
+
+.btn-primary:hover {
+  background-color: rgba(83, 83, 83, 0.7); /* Adjust alpha channel for hover effect */
+}

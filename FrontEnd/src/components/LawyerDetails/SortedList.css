@@ -1,0 +1,69 @@
+/* SortedList.css */
+
+/* Style for the container div */
+.sldiv {
+    width: 80%;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #cdcfcf;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Style for the search input */
+  .slinput {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    margin-top: 20px;
+    border: 1px solid #afb3b6;
+    border-radius: 4px;
+    font-size: 16px;
+    width: 98%;
+    
+  }
+  
+  /* Style for the LawyersList component within SortedList */
+  /* You can import LawyersList.css here if you want to reuse the styles */
+  /* Add these styles to your existing CSS or create a new one */
+
+.sloheading {
+    text-align: center;
+    font-size: 36px;
+    color: #683608;
+    margin-bottom: 20px;
+    font-family: 'Arial', sans-serif;
+    padding: 15px;
+  }
+  
+  /* Optional: Add a subtle underline */
+
+  .sloimage {
+    width: 100%;
+    height: 450px; /* Set a fixed height as needed */
+    object-fit: cover; /* Maintain aspect ratio and cover the container */
+    border-radius: 8px;
+  }
+  .round-button {
+    position: fixed;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 0px;
+    background-color: #3498db;
+    color: #fff;
+    padding: 15px 25px;
+    border-radius: 50%;
+    text-decoration: none;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease;
+  }
+  
+  .round-button:hover {
+    background-color: #2980b9;
+  }
