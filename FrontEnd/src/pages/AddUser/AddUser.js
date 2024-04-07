@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import ReactCrop from "react-image-crop";
 import "react-image-crop/dist/ReactCrop.css";
 import Navbar from '../../components/Navbar/Navbar';
@@ -14,6 +14,7 @@ function AddUser({ type = '', pageType = '' }) {
   } else {
 
   }
+  const [_id, setId] = useState('');
   const [name, setName] = useState('');
   const [photo, setPhoto] = useState('');
   const [password, setPassword] = useState('');
@@ -22,7 +23,8 @@ function AddUser({ type = '', pageType = '' }) {
   const [address, setAddress] = useState('');
   const [userType, setUserType] = useState('');
   const params = useParams();
-
+  const inputFileRef = useRef();
+  
   useEffect(() => {
     if (pageType == 'edit') {
       fetchData()
@@ -41,6 +43,7 @@ function AddUser({ type = '', pageType = '' }) {
     setAge(user.age);
     setAddress(user.address);
     setUserType(user.type);
+    setId(user._id)
   }
 
   const fileToDataUri = (file) => new Promise((resolve, reject) => {
@@ -65,35 +68,51 @@ function AddUser({ type = '', pageType = '' }) {
   }
 
   const addUser = async () => {
-    if (!name || !photo || !type || !password || !dob || !age || !address) {
+    if (!name || !photo || !password || !dob || !age || !address) {
       alert('Please enter all the details');
       return
     }
     const userObj = {
       name,
       photo,
-      type,
+      type: type ? type : userType,
       password,
       dob,
       age,
       address
     }
-    let res = await fetch(`${process.env.REACT_APP_SERVER_URL}/api/user/signup`, {
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      },
-      method: "POST",
-      body: JSON.stringify(userObj)
-    })
-    res = await res.json();
-    alert('User added successfully');
-    setName('');
-    setPhoto('');
-    setPassword('');
-    setDob('');
-    setAge('');
-    setAddress('');
+    if (pageType == 'edit') {
+      userObj._id = _id
+      let res = await fetch(`${process.env.REACT_APP_SERVER_URL}/api/user/update`, {
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        method: "PUT",
+        body: JSON.stringify(userObj)
+      })
+      res = await res.json();
+      inputFileRef.current.value = '';
+      alert('User updated successfully');
+    } else {
+      let res = await fetch(`${process.env.REACT_APP_SERVER_URL}/api/user/signup`, {
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        method: "POST",
+        body: JSON.stringify(userObj)
+      })
+      res = await res.json();
+      alert('User added successfully');
+      setName('');
+      setPhoto('');
+      setPassword('');
+      setDob('');
+      setAge('');
+      setAddress('');
+      inputFileRef.current.value = '';
+    }
   }
 
   return (
@@ -104,7 +123,7 @@ function AddUser({ type = '', pageType = '' }) {
         <div class="card" style={{ width: "18rem" }}>
 
           <div class="card-body">
-            <input type='file' onChange={(event) => onChange(event.target.files[0] || null)} />
+            <input type='file' ref={inputFileRef} onChange={(event) => onChange(event.target.files[0] || null)} />
             <img src={photo} width={'100%'} height={'auto'} />
             <div className='p-2'>
               <label>Enter name:</label>
@@ -114,15 +133,15 @@ function AddUser({ type = '', pageType = '' }) {
               <label>Enter password:</label>
               <input type='text' className='w-100' value={password} onChange={e => setPassword(e.target.value)} />
             </div>
-            {pageType == 'edit' ? 
-             <div className='p-2'>
-             <label>Type:</label>
-            <p className='m-0'>{userType}</p>
-           </div>
-           :
-           <></>
-          }
-           
+            {pageType == 'edit' ?
+              <div className='p-2'>
+                <label>Type:</label>
+                <p className='m-0'>{userType}</p>
+              </div>
+              :
+              <></>
+            }
+
             <div className='p-2'>
               <label>Enter DOB:</label>
               <input type='text' className='w-100' value={dob} onChange={e => setDob(e.target.value)} />

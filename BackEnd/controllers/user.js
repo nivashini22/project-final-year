@@ -74,11 +74,16 @@ exports.createUser = async (req, res) => {
 };
 
 exports.updateUser = async (req, res) => {
-  const user = await User.findByIdAndUpdate(
-    { _id: req.body._id },
-    { $set: req.body },
-    { new: true, useFindAndModify: false })
-  return res.status(200).json(user);
+  try {
+    const user = await User.findByIdAndUpdate(
+      { _id: req.body._id },
+      { $set: req.body },
+      { new: true, useFindAndModify: false })
+    return res.status(200).json(user);
+  } catch (error) {
+    console.log('error ', error)
+    console.log('error ')
+  }
 }
 
 exports.updateUserRating = async (req, res) => {

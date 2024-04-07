@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import { useParams } from "react-router-dom";
 import Navbar from '../../components/Navbar/Navbar';
+import { isSuperAdmin } from '../../helpers/helper';
 
 function PersonalDetails() {
   const [userData, setUserData] = useState(null);
@@ -42,7 +43,7 @@ function PersonalDetails() {
       }
       console.log(cases);
       setCaseData(cases)
-    } else if (user && (user.type === 'COUNSELOR' || user.type === 'LAWYER' )) {
+    } else if (user && (user.type === 'COUNSELOR' || user.type === 'LAWYER')) {
       const cases = [];
       for (let index = 0; index < user.requested_prisoners.length; index++) {
         const case_id = user.requested_prisoners[index].case_id;
@@ -97,8 +98,15 @@ function PersonalDetails() {
           <div className="card" style={{ width: "18rem" }} >
             <img class="card-img-top" src={userData.photo} alt="Card image cap" />
             <div class="card-body">
-              <h5 class="card-title text-center">{userData.name} <Link to={`/users/edit/${userData._id}`} className='' style={{ fontSize: '16px' }}>Edit</Link></h5>
-              
+              <h5 class="card-title text-center">{userData.name}
+                {isSuperAdmin()
+                  ?
+                  <Link to={`/users/edit/${userData._id}`} className='mx-2' style={{ fontSize: '16px' }}>Edit</Link>
+                  :
+                  <></>
+                }
+              </h5>
+
               <p class="card-text"><b>Age:</b> {userData.age}</p>
               <p class="card-text"><b>DOB:</b> {userData.dob}</p>
               {userData.type === 'PRISONER' ?
@@ -130,7 +138,7 @@ function PersonalDetails() {
                     <Link to={`/case/${data._id}`} class="card-text btn btn-primary text-center w-100">{data.title}</Link>
                     {data.requested_prisoner.isAnswered ?
                       <>
-                      <button className={`btn btn-${data.requested_prisoner.isAccepted ? 'primary': 'danger'} mx-2`}>{data.requested_prisoner.isAccepted ? 'Accepted' : 'Declined'}</button>
+                        <button className={`btn btn-${data.requested_prisoner.isAccepted ? 'primary' : 'danger'} mx-2`}>{data.requested_prisoner.isAccepted ? 'Accepted' : 'Declined'}</button>
                       </>
                       :
                       <>
