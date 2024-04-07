@@ -20,7 +20,17 @@ const caseSchema = new mongoose.Schema({
   offenders: {
     type: Array,
     default: [],
-  }
+  },
+  tests_assigned: {
+    type: Array,
+    default: [],
+  },
+  lawyer_id: {
+    type: String,
+  },
+  couselor_id: {
+    type: String,
+  },
 }, { timestamps: true }
 );
 module.exports = mongoose.model("Case", caseSchema);

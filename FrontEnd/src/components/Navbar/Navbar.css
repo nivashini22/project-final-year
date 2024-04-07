@@ -1,0 +1,47 @@
+.navbar-profile-buttons {
+	background-color: rgba(0, 0, 0, 0.5);
+	z-index: 2; /* Specify a stack order in case you're using a different order for other elements */
+	cursor: pointer;
+}
+.navbar-profile img {
+	mask-image: linear-gradient(
+		to bottom,
+		rgba(0, 0, 0, 1) 50%,
+		transparent 100%
+	);
+	-webkit-mask-image: linear-gradient(
+		to bottom,
+		rgba(0, 0, 0, 1) 50%,
+		transparent 100%
+	);
+}
+.navbar-profile-buttons button {
+	background: linear-gradient(
+		94.55deg,
+		rgba(0, 160, 228, 0.24) -25.63%,
+		rgba(255, 255, 255, 0) 133.86%
+	);
+}
+.navbar-profile-buttons button:hover {
+	font-weight: 800;
+	background: transparent;
+}
+.navbar-icon p {
+	width: 120px;
+}
+.navbar-icon .link {
+	width: 120px;
+	border: 1px solid #fefefe;
+	background-image: linear-gradient(
+		to right,
+		rgba(255, 255, 255, 0.363),
+		rgba(255, 255, 255, 0.082)
+	);
+}
+.navbar-icon .link.button {
+	background: linear-gradient(
+		to right,
+		rgba(0, 160, 228, 0.24) -25.63%,
+		rgba(255, 255, 255, 0) 133.86%
+	);
+}

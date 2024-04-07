@@ -36,24 +36,13 @@ const userSchema = new mongoose.Schema({
   },
   requested_prisoners: {
     type: Array,
-    default: [
-      {
-        _id: {
-          type: String,
-          required: true
-        },
-        isAccepted: {
-          type: Boolean,
-          default: false,
-          required: true
-        },
-        isAnswered: {
-          type: Boolean,
-          default: false,
-          required: true
-        }
-      }
-    ]
+    default: []
+    
+    // {
+    //   case_id: '',
+    //   isAccepted: false,
+    //   isAnswered: false
+    // }
   },
   rating: {
     type: Array,
