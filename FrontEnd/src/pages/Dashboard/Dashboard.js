@@ -101,12 +101,12 @@ function Dashboard({ type = '' }) {
                     :
                     <></>
                   }
-                  {userData.videos && userData.videos.length ?
+                  {userData.isPrisoner.case.videos && userData.isPrisoner.case.videos.length ?
                     <p class="card-text m-0"><b>Videos:</b></p>
                     :
                     <></>
                   }
-                  {userData.videos ? userData.videos.map(video => (
+                  {userData.isPrisoner.case.videos ? userData.isPrisoner.case.videos.map(video => (
                       <a href={video.url} target='__blank' >{video.title}</a>
                   ))
                     :

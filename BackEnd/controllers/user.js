@@ -141,3 +141,11 @@ exports.updateCounselorAccept = async (req, res) => {
   )
   return res.status(200).json(user);
 }
+
+exports.updateUserPrisonerVideo = async (req, res) => {
+  const user = await User.findOneAndUpdate(
+    { _id: req.body._id },
+    { $push: { 'isPrisoner.case.videos': req.body.video } },
+  )
+  return res.status(200).json(user);
+}
