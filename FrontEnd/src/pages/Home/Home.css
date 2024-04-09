@@ -1,0 +1,106 @@
+.flip-card {
+    background-color: transparent;
+    width: 400px;
+    height: 200px;
+    perspective: 1000px;
+    font-family: sans-serif;
+    margin-left: 500px;
+    margin-top: -200px;
+
+}  
+  .title {
+    font-size: 1.5em;
+    font-weight: 900;
+    text-align: center;
+    margin: 0;
+  }
+  
+  .flip-card-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    transition: transform 0.8s;
+    transform-style: preserve-3d;
+  }
+  
+  .flip-card:hover .flip-card-inner {
+    transform: rotateY(180deg);
+  }
+  
+  .flip-card-front, .flip-card-back {
+    box-shadow: 0 8px 14px 0 rgba(0,0,0,0.2);
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    border: 1px solid rgb(46, 45, 45);
+    border-radius: 1rem;
+  }
+  
+  .flip-card-front {
+    background: linear-gradient(120deg, rgb(138, 117, 231) 60%, rgb(135, 109, 230) 88%,
+       rgb(212, 222, 250) 40%, rgba(149, 133, 240, 0.603) 48%);
+    color: rgb(42, 3, 114);
+  }
+  
+  .flip-card-back {
+    background: linear-gradient(120deg, rgb(55, 31, 112) 30%, rgb(94, 48, 146) 88%,
+       rgb(177, 176, 175) 40%, rgb(177, 175, 175) 78%);
+    color: white;
+    transform: rotateY(180deg);
+  }
+
+  .logbutton {
+    background-color: #444141;
+    border-radius: 4px;
+    color: #fff;
+    cursor: pointer;
+    padding: 15px 30px;
+    font-size: 18px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    border: none;
+    margin-left: 630px;
+   }
+   
+   .logbutton:hover {
+    background-image: linear-gradient(90deg, #53cbef 0%, #dcc66c 50%, #ffa3b6 75%, #53cbef 100%);
+    animation: slidernbw 5s linear infinite;
+    color: #000;
+   }
+   
+   @keyframes slidernbw {
+    to {
+     background-position: 20vw;
+    }
+   }
+
+   .logbutton1 {
+    background-color: #444141;
+    border-radius: 4px;
+    color: #fff;
+    cursor: pointer;
+    padding: 15px 30px;
+    font-size: 18px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    border: none;
+   }
+   
+   .logbutton1:hover {
+    background-image: linear-gradient(90deg, #53cbef 0%, #dcc66c 50%, #ffa3b6 75%, #53cbef 100%);
+    animation: slidernbw 5s linear infinite;
+    color: #000;
+   }
+   
+   @keyframes slidernbw {
+    to {
+     background-position: 20vw;
+    }
+   }
+  

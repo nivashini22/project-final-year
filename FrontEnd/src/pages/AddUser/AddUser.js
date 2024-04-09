@@ -22,14 +22,64 @@ function AddUser({ type = '', pageType = '' }) {
   const [age, setAge] = useState('');
   const [address, setAddress] = useState('');
   const [userType, setUserType] = useState('');
+  const [isPrisoner, setIsPrisoner] = useState({
+    number: '',
+    title: '',
+    description: '',
+    charge: '',
+    date_joined: '',
+    duration_of_sentence: '',
+    lawyer_id: '',
+    counselor_id: '',
+    videos: []
+  });
+  const [isLawyer, setIsLawyer] = useState({
+    requested_prisoners: [],
+    specialization: [],
+    review: false
+  });
+  const [isCounselor, setIsCounselor] = useState({
+    requested_prisoners: [],
+    counselingNeed: '',
+    expertise: '',
+    expertiseLevel: ''
+  });
   const params = useParams();
   const inputFileRef = useRef();
-  
+
   useEffect(() => {
+    setName('');
+    setPhoto('');
+    setPassword('');
+    setDob('');
+    setAge('');
+    setAddress('');
+    setIsPrisoner({
+      number: '',
+      title: '',
+      description: '',
+      charge: '',
+      date_joined: '',
+      duration_of_sentence: '',
+      lawyer_id: '',
+      counselor_id: '',
+      videos: []
+    })
+    setIsLawyer({
+      requested_prisoners: [],
+      specialization: '',
+      review: ''
+    })
+    setIsCounselor({
+      requested_prisoners: [],
+      counselingNeed: '',
+      expertise: '',
+      expertiseLevel: ''
+    })
     if (pageType == 'edit') {
       fetchData()
     }
-  }, [])
+  }, [type, pageType])
 
   const fetchData = async () => {
     const user_id = params.user_id;
@@ -44,6 +94,15 @@ function AddUser({ type = '', pageType = '' }) {
     setAddress(user.address);
     setUserType(user.type);
     setId(user._id)
+    if (user.type === 'PRISONER') {
+      setIsPrisoner(user.isPrisoner.case)
+    }
+    if (user.type === 'LAWYER') {
+      setIsLawyer(user.isLawyer);
+    }
+    if (user.type === 'COUNSELOR') {
+      setIsCounselor(user.isCounselor);
+    }
   }
 
   const fileToDataUri = (file) => new Promise((resolve, reject) => {
@@ -53,6 +112,7 @@ function AddUser({ type = '', pageType = '' }) {
     };
     reader.readAsDataURL(file);
   })
+
   const onChange = (file) => {
 
     if (!file) {
@@ -65,6 +125,16 @@ function AddUser({ type = '', pageType = '' }) {
         setPhoto(photo)
       })
 
+  }
+
+  const onChangePrisonerData = (e) => {
+    setIsPrisoner({ ...isPrisoner, [e.target.name]: e.target.value })
+  }
+  const onChangeLawyerData = (e) => {
+    setIsLawyer({ ...isLawyer, [e.target.name]: e.target.value })
+  }
+  const onChangeCounselorData = (e) => {
+    setIsCounselor({ ...isCounselor, [e.target.name]: e.target.value })
   }
 
   const addUser = async () => {
@@ -80,6 +150,16 @@ function AddUser({ type = '', pageType = '' }) {
       dob,
       age,
       address
+    }
+    if (type === 'PRISONER') {
+      userObj.isPrisoner = {};
+      userObj.isPrisoner.case = isPrisoner;
+    }
+    if (type === 'LAWYER') {
+      userObj.isLawyer = isLawyer;
+    }
+    if (type === 'COUNSELOR') {
+      userObj.isCounselor = isCounselor;
     }
     if (pageType == 'edit') {
       userObj._id = _id
@@ -120,8 +200,7 @@ function AddUser({ type = '', pageType = '' }) {
       <Navbar />
       <h2 className='text-white text-center'>{pageType == 'edit' ? 'Update' : 'Add'} {type.toUpperCase()}</h2>
       <div className='container d-flex justify-content-center align-items center p-4'>
-        <div class="card" style={{ width: "18rem" }}>
-
+        <div class="card" style={{ width: "40rem" }}>
           <div class="card-body">
             <input type='file' ref={inputFileRef} onChange={(event) => onChange(event.target.files[0] || null)} />
             <img src={photo} width={'100%'} height={'auto'} />
@@ -141,7 +220,6 @@ function AddUser({ type = '', pageType = '' }) {
               :
               <></>
             }
-
             <div className='p-2'>
               <label>Enter DOB:</label>
               <input type='text' className='w-100' value={dob} onChange={e => setDob(e.target.value)} />
@@ -154,6 +232,67 @@ function AddUser({ type = '', pageType = '' }) {
               <label>Enter Address:</label>
               <input type='text' className='w-100' value={address} onChange={e => setAddress(e.target.value)} />
             </div>
+
+            {type === 'PRISONER' ?
+              <>
+                <div className='p-2'>
+                  <label>Case Number:</label>
+                  <input type='text' name='number' className='w-100' value={isPrisoner.number} onChange={onChangePrisonerData} />
+                </div>
+                <div className='p-2'>
+                  <label>Case Title:</label>
+                  <input type='text' name='title' className='w-100' value={isPrisoner.title} onChange={onChangePrisonerData} />
+                </div>
+                <div className='p-2'>
+                  <label>Case Description:</label>
+                  <input type='text' name='description' className='w-100' value={isPrisoner.description} onChange={onChangePrisonerData} />
+                </div>
+                <div className='p-2'>
+                  <label>Charge:</label>
+                  <input type='text' name='charge' className='w-100' value={isPrisoner.charge} onChange={onChangePrisonerData} />
+                </div>
+                <div className='p-2'>
+                  <label>Date joined:</label>
+                  <input type='text' name='date_joined' className='w-100' value={isPrisoner.date_joined} onChange={onChangePrisonerData} />
+                </div>
+                <div className='p-2'>
+                  <label>Duration:</label>
+                  <input type='text' name='duration_of_sentence' className='w-100' value={isPrisoner.duration_of_sentence} onChange={onChangePrisonerData} />
+                </div>
+              </>
+              :
+              <></>
+            }
+            {type === 'LAWYER' ?
+              <>
+                <div className='p-2'>
+                  <label>Specialization:</label>
+                  <input type='text' name='specialization' className='w-100' value={isLawyer.specialization} onChange={onChangeLawyerData} />
+                </div>
+                <div className='p-2'>
+                  <label>Review:</label>
+                  <input type='text' name='review' className='w-100' value={isLawyer.review} onChange={onChangeLawyerData} />
+                </div>
+              </>
+              :
+              <></>}
+            {type === 'COUNSELOR' ?
+              <>
+                <div className='p-2'>
+                  <label>Counseling Need:</label>
+                  <input type='text' name='counselingNeed' className='w-100' value={isCounselor.counselingNeed} onChange={onChangeCounselorData} />
+                </div>
+                <div className='p-2'>
+                  <label>Expertise:</label>
+                  <input type='text' name='expertise' className='w-100' value={isCounselor.expertise} onChange={onChangeCounselorData} />
+                </div>
+                <div className='p-2'>
+                  <label>Expertise Level:</label>
+                  <input type='text' name='expertiseLevel' className='w-100' value={isCounselor.expertiseLevel} onChange={onChangeCounselorData} />
+                </div>
+              </>
+              :
+              <></>}
             <button className='btn btn-primary w-100' onClick={addUser}>{pageType == 'edit' ? 'Update' : 'Add'}</button>
           </div>
         </div>

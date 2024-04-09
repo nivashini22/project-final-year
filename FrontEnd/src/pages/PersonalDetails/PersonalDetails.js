@@ -34,15 +34,7 @@ function PersonalDetails() {
     user.photo = user.photo ? user.photo : 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRynyvvPOS4gcG8x1DtUCOgoPMFnn56yDEzhw&usqp=CAU';
     setUserData(user);
     if (user && user.type === 'PRISONER') {
-      const cases = [];
-      for (let index = 0; index < user.cases.length; index++) {
-        const case_id = user.cases[index];
-        let res = await fetch(`${process.env.REACT_APP_SERVER_URL}/api/case/${case_id}`)
-        res = await res.json();
-        cases.push(res);
-      }
-      console.log(cases);
-      setCaseData(cases)
+      setCaseData(user.isPrisoner.case)
     } else if (user && (user.type === 'COUNSELOR' || user.type === 'LAWYER')) {
       const cases = [];
       for (let index = 0; index < user.requested_prisoners.length; index++) {
@@ -124,15 +116,14 @@ function PersonalDetails() {
                 <></>
               }
               <hr />
-              <b className=''>Cases:</b>
-              {userData && userData.type === 'PRISONER' && caseData && caseData.map(data => {
-                return (
-                  <div className='pt-3 '>
-                    <Link to={`/case/${data._id}`} class="card-text btn btn-primary text-center w-100">{data.title} {data.lawyer_id && data.counselor_id ? '' : '- Select'}</Link>
-                  </div>
-                )
-              })}
-              {userData && userData.type !== 'PRISONER' && caseData && caseData.map(data => {
+              <b className=''>Case:</b>
+              {userData && userData.type === 'PRISONER' && caseData && caseData._id &&
+                <div className='pt-3 '>
+                  <Link to={`/case/${caseData._id}`} class="card-text btn btn-primary text-center w-100">{caseData.title} {caseData.lawyer_id && caseData.counselor_id ? '' : '- Select'}</Link>
+                  <Link to='/' >Select Lawyer</Link>
+                </div>
+              }
+              {/* {userData && userData.type !== 'PRISONER' && caseData && caseData.map(data => {
                 return (
                   <div className='pt-3 d-flex'>
                     <Link to={`/case/${data._id}`} class="card-text btn btn-primary text-center w-100">{data.title}</Link>
@@ -153,7 +144,7 @@ function PersonalDetails() {
                 <p>No cases found</p>
                 :
                 <></>
-              }
+              } */}
             </div>
           </div>
           :

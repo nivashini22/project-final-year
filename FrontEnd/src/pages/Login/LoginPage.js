@@ -22,12 +22,20 @@ const LoginPage = ({ type }) => {
     const user = await result.json();
     console.log(user);
     if (user && user._id) {
+      sessionStorage.removeItem("user");
       sessionStorage.setItem("user", JSON.stringify(user));
-      if (type === 'admin') {
-        navigate("/dashboard");
+      if (user && user.type === 'PRISONER') {
+        navigate(`/users/prisoner/${user._id}`);
+      } else if (user && user.type === 'LAWYER') {
+        navigate(`/users/lawyer/${user._id}`);
+      } else if (user && user.type === 'COUNSELOR') {
+        navigate(`/users/counselor/${user._id}`);
+      } else if (user && user.type === 'ADMIN') {
+        navigate(`/dashboard/prisoners`);
       } else {
-        navigate("/profile");
-      }
+        navigate(`/profile`);
+      } 
+      return;
     } else {
       alert("Please enter correct details");
     }
@@ -36,8 +44,20 @@ const LoginPage = ({ type }) => {
   useEffect(() => {
     const userFromStorage = sessionStorage.getItem('user');
     if (userFromStorage) {
-      // const user = JSON.parse(userFromStorage);
-      navigate("/profile");
+      const user = JSON.parse(userFromStorage);
+      console.log('user.type ', user.type)
+      if (user && user.type === 'PRISONER') {
+        navigate(`/users/prisoner/${user._id}`);
+      } else if (user && user.type === 'LAWYER') {
+        navigate(`/users/lawyer/${user._id}`);
+      } else if (user && user.type === 'COUNSELOR') {
+        navigate(`/users/counselor/${user._id}`);
+      } else if (user && user.type === 'ADMIN') {
+        navigate(`/dashboard/prisoners`);
+      } else {
+        navigate(`/profile`);
+      } 
+      return;
     }
   }, [])
 
@@ -46,9 +66,9 @@ const LoginPage = ({ type }) => {
   };
 
   return (
-      <div className="login bg-dark">
-        <div className="login__container bg-white">
-          <h1>{type == 'admin' ? 'Admin' : selectedLogin.charAt(0).toUpperCase() + selectedLogin.slice(1)} Login</h1>
+    <div className="login-container">
+        <div class='frontlogin wrap'>
+          <div class="h1">{type == 'admin' ? 'Admin' : selectedLogin.charAt(0).toUpperCase() + selectedLogin.slice(1)} Login</div>
           <form>
             <h5>Name</h5>
             <input type="text" value={name} onChange={e => setName(e.target.value)} />
@@ -59,11 +79,9 @@ const LoginPage = ({ type }) => {
               value={password}
               onChange={e => setPassword(e.target.value)}
             />
-
-            <button
+            <button className='logbtn'
               type="submit"
               onClick={handleLogin}
-              className="login__signInButton"
             >
               Sign In
             </button>
@@ -111,7 +129,7 @@ const LoginPage = ({ type }) => {
             </button>
           </Link> */}
         </div>
-      </div>
+        </div>
   );
 };
 

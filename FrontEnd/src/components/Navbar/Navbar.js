@@ -9,6 +9,10 @@ import { useNavigate } from 'react-router-dom';
 const Navbar = ({ page }) => {
   const navigate = useNavigate();
   const isLoggedIn = isAuthenticated();
+  let user = sessionStorage.getItem('user');
+  if (user) {
+    user = JSON.parse(user);
+  }
 
   return (
     <div className='container d-flex flex-row justify-content-between pt-4'>
@@ -35,13 +39,23 @@ const Navbar = ({ page }) => {
           <div className='dropdown'>
             <img type='button' role='button' className='dropdown-toggle cursor-pointer' data-bs-toggle='dropdown' aria-expanded='false' src='https://www.secland.com/wp-content/uploads/2019/10/icon-our-team.png' height={30} alt='nav2' />
             <div className='navbar-profile-buttons dropdown-menu dropdown-menu-right p-0 m-0'>
-              <button className='dropdown-item py-3 font-size-12 text-white border-color-tertiary' onClick={() => navigate('/profile')}>Profile</button>
+              {user && user._id ?
+              <button className='dropdown-item py-3 font-size-12 text-white border-color-tertiary' onClick={() => navigate(`/users/${user.type.toLowerCase()}/${user._id}`)}>Profile</button>
+            :
+            <></>  
+            }
               {isSuperAdmin() &&
-                <button className='dropdown-item py-3 font-size-12 text-white border-color-tertiary' onClick={() => navigate('/dashboard')}>Dashboard</button>
+                <button className='dropdown-item py-3 font-size-12 text-white border-color-tertiary' onClick={() => navigate('/dashboard/prisoners')}>Prisoners</button>
               }
-              {isSuperAdmin() &&
+               {isSuperAdmin() &&
+                <button className='dropdown-item py-3 font-size-12 text-white border-color-tertiary' onClick={() => navigate('/dashboard/lawyers')}>Lawyers</button>
+              }
+               {isSuperAdmin() &&
+                <button className='dropdown-item py-3 font-size-12 text-white border-color-tertiary' onClick={() => navigate('/dashboard/counselors')}>Counselors</button>
+              }
+              {/* {isSuperAdmin() &&
                 <button className='dropdown-item py-3 font-size-12 text-white border-color-tertiary' onClick={() => navigate('/case/add')}>Add Case</button>
-              }
+              } */}
               {isSuperAdmin() &&
                 <button className='dropdown-item py-3 font-size-12 text-white border-color-tertiary' onClick={() => navigate('/prisoners/add')}>Add Prisoner</button>
               }

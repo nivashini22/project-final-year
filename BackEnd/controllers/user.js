@@ -1,10 +1,8 @@
 const User = require("../models/user");
-const Case = require("../models/case");
 
 exports.signup = async (req, res) => {
   const userObj = new User(req.body);
   const user = await userObj.save();
-  delete req.body.password;
   return res.status(200).json(req.body);
 };
 
@@ -16,8 +14,6 @@ exports.signin = async (req, res) => {
       error: "USER email does not exists"
     });
   }
-  console.log(user.password)
-  console.log(password)
   if (user.password != password) {
     return res.status(400).json({
       error: "Password does not match"
@@ -26,6 +22,7 @@ exports.signin = async (req, res) => {
   delete user.password;
   return res.json(user);
 };
+
 exports.getAllUsers = async (req, res) => {
   const userObj = await User.find();
   return res.status(200).json(userObj);
@@ -69,7 +66,6 @@ exports.getAllPrisoners = async (req, res) => {
 exports.createUser = async (req, res) => {
   const userObj = new User(req.body);
   const user = await userObj.save();
-  delete req.body.password;
   return res.status(200).json(req.body);
 };
 
@@ -102,30 +98,46 @@ exports.updateUserScore = async (req, res) => {
   return res.status(200).json(user);
 }
 
-exports.updateUserRequest = async (req, res) => {
+exports.updateUserLawyerRequest = async (req, res) => {
   const user = await User.findOneAndUpdate(
     { _id: req.body._id },
-    { $push: { requested_prisoners: req.body.requested_prisoners } },
+    { $push: { 'isLawyer.requested_prisoners': req.body.requested_prisoner } },
   )
   return res.status(200).json(user);
 }
 
-exports.updateUserAccept = async (req, res) => {
-  let objToUpdate = { lawyer_id: req.body.lawyer_id };
-  if (req.body.isLawyer) {
+exports.updateUserCounselorRequest = async (req, res) => {
+  const user = await User.findOneAndUpdate(
+    { _id: req.body._id },
+    { $push: { 'isCounselor.requested_prisoners': req.body.requested_prisoner } },
+  )
+  return res.status(200).json(user);
+}
 
-  } else {
-    objToUpdate = { counselor_id: req.body.counselor_id };
-  }
+exports.updateLawyerAccept = async (req, res) => {
   if (req.body.isAccepted) {
-    await Case.findOneAndUpdate(
-      { _id: req.body.case_id },
-      objToUpdate,
+    await User.findOneAndUpdate(
+      { _id: req.body.user_id },
+      { 'isPrisoner.case.lawyer_id': req.body.lawyer_id }
     )
   }
-  const user =  await User.findOneAndUpdate(
+  const user = await User.findOneAndUpdate(
     { _id: req.body.lawyer_id },
-    { requested_prisoners: req.body.requested_prisoners }
+    { 'isLawyer.requested_prisoners': req.body.requested_prisoners }
+  )
+  return res.status(200).json(user);
+}
+
+exports.updateCounselorAccept = async (req, res) => {
+  if (req.body.isAccepted) {
+    await User.findOneAndUpdate(
+      { _id: req.body.user_id },
+      { 'isPrisoner.case.counselor_id': req.body.counselor_id }
+    )
+  }
+  const user = await User.findOneAndUpdate(
+    { _id: req.body.counselor_id },
+    { 'isCounselor.requested_prisoners': req.body.requested_prisoners }
   )
   return res.status(200).json(user);
 }

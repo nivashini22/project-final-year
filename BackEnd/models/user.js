@@ -6,17 +6,17 @@ const userSchema = new mongoose.Schema({
     required: true,
     unique: true
   },
-  photo: {
-    type: String
+  password: {
+    type: String,
+    required: true,
+    minlength: 4
   },
   type: {
     type: String,
     required: true
   },
-  password: {
-    type: String,
-    required: true,
-    minlength: 4
+  photo: {
+    type: String
   },
   dob: {
     type: String,
@@ -30,31 +30,49 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  cases: {
-    type: Array,
-    default: []
+  isPrisoner: {
+    type: Object,
+    default: {
+      case: {
+        number: '',
+        title: '',
+        description: '',
+        charge: '',
+        date_joined: '',
+        duration_of_sentence: '',
+        lawyer_id: '',
+        counselor_id: '',
+        videos: []
+        // {
+        //   title: '',
+        //   url:
+        // }
+      },
+      test_score: [],
+      isReleased: false
+    }
   },
-  requested_prisoners: {
-    type: Array,
-    default: []
-    
-    // {
-    //   case_id: '',
-    //   isAccepted: false,
-    //   isAnswered: false
-    // }
+  isLawyer: {
+    type: Object,
+    default: {
+      requested_prisoners: [],
+      // {
+      //   user_id: '',
+      //   isAccepted: false,
+      //   isAnswered: false
+      // }
+      specialization: '',
+      review: ''
+    },
   },
-  rating: {
-    type: Array,
-    default: []
-  },
-  test_score: {
-    type: Array,
-    default: []
-  },
-  isReleased: {
-    type: Boolean,
-    default: false
+  isCounselor: {
+    type: Object,
+    default: {
+      requested_prisoners: [],
+      counselingNeed: '',
+      expertise: '',
+      expertiseLevel: ''
+    }
   }
 }, { timestamps: true }
 );

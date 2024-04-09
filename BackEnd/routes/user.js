@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const { signup, signin, getUserById, createUser, updateUser, updateUserRating, updateUserScore, getAllUsers, updateUserRequest, updateUserAccept, getAllLawyers, getAllCounselors, getAllPrisoners } = require("../controllers/user");
+const { signup, signin, getUserById, createUser, updateUser, updateUserRating, updateUserScore, getAllUsers, getAllLawyers, getAllCounselors, getAllPrisoners, updateUserCounselorRequest, updateUserLawyerRequest, updateCounselorAccept, updateLawyerAccept } = require("../controllers/user");
 
 router.post("/user/signup", signup);
 router.post("/user/login", signin);
@@ -12,9 +12,14 @@ router.get("/user/type/lawyers", getAllLawyers);
 router.get("/user/type/counselors", getAllCounselors);
 router.post("/user/create", createUser);
 router.put("/user/update", updateUser);
+
+// not used
 router.put("/user/update/rate", updateUserRating);
 router.put("/user/update/score", updateUserScore);
-router.put("/user/update/request", updateUserRequest);
-router.put("/user/update/accept", updateUserAccept);
+
+router.put("/user/update/lawyer/request", updateUserLawyerRequest);
+router.put("/user/update/counselor/request", updateUserCounselorRequest);
+router.put("/user/update/lawyer/accept", updateLawyerAccept);
+router.put("/user/update/counselor/accept", updateCounselorAccept);
 
 module.exports = router;

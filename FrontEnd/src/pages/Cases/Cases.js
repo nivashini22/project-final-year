@@ -50,7 +50,7 @@ function CaseDetails() {
   }
 
   const selectLawyer = async (id) => {
-    let res = await fetch(`${process.env.REACT_APP_SERVER_URL}/api/user/update/request`, {
+    let res = await fetch(`${process.env.REACT_APP_SERVER_URL}/api/user/update/lawyer/request`, {
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
@@ -59,7 +59,27 @@ function CaseDetails() {
       body: JSON.stringify({
         _id: id,
         case_id: caseId,
-        requested_prisoners: {
+        requested_prisoner: {
+          case_id: caseId,
+          isAccepted: false,
+          isAnswered: false
+        },
+      })
+    })
+    res = await res.json();
+    await fetchData()
+  }
+  const selectCounselor = async (id) => {
+    let res = await fetch(`${process.env.REACT_APP_SERVER_URL}/api/user/update/counselor/request`, {
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      method: "PUT",
+      body: JSON.stringify({
+        _id: id,
+        case_id: caseId,
+        requested_prisoner: {
           case_id: caseId,
           isAccepted: false,
           isAnswered: false
