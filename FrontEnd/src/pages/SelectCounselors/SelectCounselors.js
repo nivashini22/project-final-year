@@ -114,7 +114,7 @@ function SelectCounselors() {
               {sortedCounselors && sortedCounselors.map(counselor => (
                 <li className='lli' key={counselor._id}>
                   <strong className='lstrong'>{counselor.name}</strong>
-                  <p className='lp'>Counseling need: : {counselor.isCounselor.counselingNeed}</p>
+                  <p className='lp'>Counseling need: {counselor.isCounselor.counselingNeed}</p>
                   <p className='lp'>Expertise: {counselor.isCounselor.expertise}</p>
                   <p className='lp'>Expertise Level: {counselor.isCounselor.expertiseLevel}</p>
                   <div className='w-100  text-center'>

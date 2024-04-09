@@ -217,7 +217,7 @@ function Dashboard({ type = '' }) {
                     {type === 'counselors' ?
                       <div className='col-6 m-auto'>
                         <strong className='lp'>{user.name}</strong>
-                        <p className='lp'>Counseling need: : {user.isCounselor.counselingNeed}</p>
+                        <p className='lp'>Counseling need: {user.isCounselor.counselingNeed}</p>
                         <p className='lp'>Expertise: {user.isCounselor.expertise}</p>
                         <p className='lp'>Expertise Level: {user.isCounselor.expertiseLevel}</p>
                       </div>

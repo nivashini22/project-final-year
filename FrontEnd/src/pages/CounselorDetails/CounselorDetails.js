@@ -221,13 +221,13 @@ function CounselorDetails() {
               <p class="card-text"><b>Prisoner:</b> {prisoner.name}</p>
               <p class="card-text"><b>Case title:</b> {prisoner.isPrisoner.case.title}</p>
               <p class="card-text"><b>Charge:</b> {prisoner.isPrisoner.case.charge}</p>
-              <p class="card-text m-0"><b>Videos:</b></p>
+              {/* <p class="card-text m-0"><b>Videos:</b></p>
               {prisoner?.isPrisoner?.case?.videos?.length && prisoner.isPrisoner.case.videos.map(video => (
                 <a href={video.url} target='__blank' >{video.title}</a>
               ))}
               <input type='text' placeholder='Enter the video title' value={videoDetails.title} onChange={e => setVideoDetails({...videoDetails, title: e.target.value })}/>
-              <input type='text' placeholder='Enter the video url...' value={videoDetails.url} onChange={e => setVideoDetails({...videoDetails, url: e.target.value })}/>
-              <button className='btn btn-secondary text-white p-2 mb-3' onClick={() => addVideo(prisoner._id)}>Add video</button>
+              <input type='text' placeholder='Enter the video url...' value={videoDetails.url} onChange={e => setVideoDetails({...videoDetails, url: e.target.value })}/> 
+              <button className='btn btn-secondary text-white p-2 mb-3' onClick={() => addVideo(prisoner._id)}>Add video</button> */}
               <button className='btn btn-secondary text-white p-2 mb-3' onClick={() => viewCase(prisoner)}>View</button>
               {prisoner.isAnswered ?
                 prisoner.isAccepted ?
