@@ -45,6 +45,7 @@ function CounselorDetails() {
       const prisoner = user.isCounselor.requested_prisoners[index];
       let result = await fetch(`${process.env.REACT_APP_SERVER_URL}/api/user/${prisoner.user_id}`)
       const data = await result.json();
+      // console.log("Prisoner details:", prisoner);
       data.isAccepted = prisoner.isAccepted;
       data.isAnswered = prisoner.isAnswered;
       prisonerDetails.push(data);

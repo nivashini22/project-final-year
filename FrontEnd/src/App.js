@@ -17,6 +17,13 @@ import { isAuthenticated, isCounselor, isLawyer, isPrisoner, isSuperAdmin } from
 import LawyerDetails from './pages/LawyerDetails/LawyerDetails';
 import CounselorDetails from './pages/CounselorDetails/CounselorDetails';
 
+import Testui from './test/Testui';
+import Test1 from './test/Test1';
+import Test2 from './test/Test2';
+import Test3 from './test/Test3';
+import Test4 from './test/Test4';
+import Test5 from './test/Test5';
+
 
 function App() {
   const PrisonerRoute = () => {
@@ -74,7 +81,16 @@ function App() {
         <Route path="/case/:case_id" element={<CaseDetails />} />
         <Route path="/admin/login" element={<LoginPage type="admin" />} />
         <Route path="/logout" element={<Logout />} />
-      </Routes>
+        <Route path="/test" element={<Testui />} />
+        <Route path='/test/test1' element={<Test1 />} />
+        <Route path='/test/test2' element={<Test2 />} />
+        <Route path='/test/test3' element={<Test3 />} />
+        <Route path='/test/test4' element={<Test4 />} />
+        <Route path='/test/test5' element={<Test5 />} />
+
+
+              
+        </Routes>
     </Router>
   );
 }

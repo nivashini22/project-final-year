@@ -34,7 +34,7 @@ const Header = props => {
     return (
         <Fragment>
             <header className={classes.header}>
-                <h1>Home</h1>
+                <h1>Home Page</h1>
                 <button class='logbutton' onClick={handleclickadmin}>Admin</button>
                 <button class='logbutton1' onClick={handleclick}>Users</button>
             </header>
