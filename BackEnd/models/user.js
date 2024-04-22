@@ -48,7 +48,28 @@ const userSchema = new mongoose.Schema({
         //   url:
         // }
       },
-      test_score: [],
+      test_score: {
+        BDI: {
+          isAttended: false,
+          mark: 0
+        },
+        GAD: {
+          isAttended: false,
+          mark: 0
+        },
+        Stress: {
+          isAttended: false,
+          mark: 0
+        },
+        SAS: {
+          isAttended: false,
+          mark: 0
+        },
+        Anger: {
+          isAttended: false,
+          mark: 0
+        }
+      },
       isReleased: false
     }
   },

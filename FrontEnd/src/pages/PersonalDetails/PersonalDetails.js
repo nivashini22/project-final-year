@@ -49,7 +49,7 @@ function PersonalDetails() {
     }
   }
 
-  const getAverage = (arr) => {
+  const getAverage = (arr = []) => {
     const value = (arr.reduce((p, c) => Number(p) + Number(c), 0) / arr.length).toFixed(1);
     return value !== 'NaN' ? value : 0;
   }
@@ -104,7 +104,7 @@ function PersonalDetails() {
               {userData.type === 'PRISONER' ?
                 <>
                   <p class="card-text"><b>Is Released:</b> {userData.isReleased ? 'Yes' : 'No'}</p>
-                  <p class="card-text"><b>Test Score:</b> {getAverage(userData.test_score)}</p>
+                  {/* <p class="card-text"><b>Test Score:</b> {getAverage(userData.test_score)}</p> */}
                 </>
                 :
                 <></>

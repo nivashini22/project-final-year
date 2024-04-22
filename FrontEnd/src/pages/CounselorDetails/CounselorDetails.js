@@ -160,6 +160,58 @@ function CounselorDetails() {
     setCaseData(data);
     setIsOpen(true);
   }
+
+  const markText = (type, obj) => {
+    const value = obj.mark;
+    let text = '';
+    if (type == 'BDI') {
+      if (value < 14) {
+        text = `Minimal despression - ${value}`
+      } else if (value > 13 && value < 20) {
+        text = `Mild despression - ${value}`
+      } else if (value > 19 && value < 29) {
+        text = `Moderate despression - ${value}`
+      } else {
+        text = `Severe despression - ${value}`
+      }
+    } else if (type == 'GAD') {
+      if (value < 5) {
+        text = `Minimal anxiety - ${value}`
+      } else if (value > 4 && value < 10) {
+        text = `Mild anxiety - ${value}`
+      } else if (value > 9 && value < 15) {
+        text = `Moderate anxiety - ${value}`
+      } else {
+        text = `Severe anxiety - ${value}`
+      }
+    } else if (type == 'Stress') {
+      if (value < 8) {
+        text = `Minimal stress - ${value}`
+      } else if (value > 7 && value < 16) {
+        text = `Mild stress - ${value}`
+      } else if (value > 15 && value < 23) {
+        text = `Moderate stress - ${value}`
+      } else {
+        text = `Severe stress - ${value}`
+      }
+    } else if (type == 'SAS') {
+      text = `${value};`
+    } else if (type == 'Anger') {
+      if (value < 20) {
+        text = `Bad - ${value}`
+      } else if (value > 19 && value < 41) {
+        text = `Fair - ${value}`
+      } else if (value > 40 && value < 66) {
+        text = `Good - ${value}`
+      } else {
+        text = `Excellent - ${value}`
+      }
+    } else {
+      text = `${value};`
+    }
+    return text;
+  }
+
   return (
     <div className='details-container bg-dark' style={{ minHeight: '100vh' }}>
       <Navbar />
@@ -179,7 +231,35 @@ function CounselorDetails() {
               <p class="card-text"><b>Charge:</b> {caseData.isPrisoner.case.charge}</p>
               <p class="card-text"><b>Date joined:</b> {caseData.isPrisoner.case.date_joined}</p>
               <p class="card-text"><b>Duration:</b> {caseData.isPrisoner.case.duration_of_sentence}</p>
+              <p class="card-text text-primary"><b>Test Details:</b></p>
+              
+              {caseData?.isPrisoner?.test_score?.BDI?.isAttended ?
+              <p class="card-text"><b>BDI:</b> {markText('BDI', caseData?.isPrisoner?.test_score.BDI)}</p>
+              :
+              <p class="card-text"><b>BDI:</b>&nbsp;Not Attended
+              </p>
+            }
+            {caseData?.isPrisoner?.test_score?.GAD?.isAttended ?
+              <p class="card-text"><b>GAD:</b> {markText('GAD', caseData?.isPrisoner?.test_score.GAD)}</p>
+              :
+              <p class="card-text"><b>GAD:</b>&nbsp;Not Attended</p>
 
+            }
+            {caseData?.isPrisoner?.test_score?.Stress?.isAttended ?
+              <p class="card-text"><b>Stress:</b> {markText('Stress', caseData?.isPrisoner?.test_score.Stress)}</p>
+              :
+              <p class="card-text"><b>Stress:</b>&nbsp;Not Attended</p>
+            }
+            {caseData?.isPrisoner?.test_score?.SAS?.isAttended ?
+              <p class="card-text"><b>SAS:</b> {markText('SAS', caseData?.isPrisoner?.test_score.SAS)}</p>
+              :
+              <p class="card-text"><b>SAS:</b>&nbsp;Not Attended</p>
+            }
+            {caseData?.isPrisoner?.test_score?.Anger?.isAttended ?
+              <p class="card-text"><b>Anger:</b> {markText('Anger', caseData?.isPrisoner?.test_score.Anger)}</p>
+              :
+              <p class="card-text"><b>Anger:</b>&nbsp;Not Attended</p>
+            }
             </div>
           </div>
           :
@@ -205,8 +285,9 @@ function CounselorDetails() {
                 <p class="card-text"><b>Age:</b> {userData.age}</p>
                 <p class="card-text"><b>DOB:</b> {userData.dob}</p>
                 <p class="card-text"><b>Address:</b> {userData.address}</p>
-                <p class="card-text"><b>Specialization:</b> {userData.specialization}</p>
-                <p class="card-text"><b>Review:</b> {userData.review}</p>
+                <p class="card-text"><b>Counseling Need:</b> {userData.isCounselor.counselingNeed}</p>
+                <p class="card-text"><b>Expertise:</b> {userData.isCounselor.expertise}</p>
+                <p class="card-text"><b>Expertise Level:</b> {userData.isCounselor.expertiseLevel}</p>
               </div>
             </div>
 

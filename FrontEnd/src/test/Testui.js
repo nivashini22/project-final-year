@@ -12,7 +12,7 @@ import test5Image from '../images/test5.jpg';
 
 const TestCard = ({ testName, test, image, route }) => {
   return (
-    <div className="card">
+    <div className="cardText">
     <Link to={route} className="card-link">
     
       <img src={image} alt={testName} className="test-image" />

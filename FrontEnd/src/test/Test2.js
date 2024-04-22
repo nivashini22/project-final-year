@@ -1,163 +1,60 @@
 import React from 'react'
+import { test2 } from '../helpers/data'
+import { useParams, useNavigate } from "react-router-dom";
 
-const questions = [
-  {
-    "number": 1,
-    "question": "Feeling nervous, anxious, or on edge ",
-    "answers": [
-      {
-        "value": "Not at all",
-        "mark": 0
-      },
-      {
-        "value": "Several days",
-        "mark": 1
-      },
-      {
-        "value": "More than half the days",
-        "mark": 2
-      },
-      {
-        "value": "Nearly every day",
-        "mark": 3
-      }
-    ]
-  },
-  {
-      "number": 2,
-      "question": "Not being able to stop or control worrying",
-      "answers": [
-        {
-          "value": "Not at all",
-          "mark": 0
-        },
-        {
-          "value": "Several days",
-          "mark": 1
-        },
-        {
-          "value": "More than half the days",
-          "mark": 2
-        },
-        {
-          "value": "Nearly every day",
-          "mark": 3
-        }
-      ]
-    },
-    {
-      "number": 3,
-      "question": "Worrying too much about different things",
-      "answers": [
-        {
-          "value": "Not at all",
-          "mark": 0
-        },
-        {
-          "value": "Several days",
-          "mark": 1
-        },
-        {
-          "value": "More than half the days",
-          "mark": 2
-        },
-        {
-          "value": "Nearly every day",
-          "mark": 3
-        }
-      ]
-    },
-    {
-      "number": 4,
-      "question": "Trouble relaxing",
-      "answers": [
-        {
-          "value": "Not at all",
-          "mark": 0
-        },
-        {
-          "value": "Several days",
-          "mark": 1
-        },
-        {
-          "value": "More than half the days",
-          "mark": 2
-        },
-        {
-          "value": "Nearly every day",
-          "mark": 3
-        }
-      ]
-    },
-    {
-      "number": 5,
-      "question": "Being so restless that it is hard to sit still",
-      "answers": [
-        {
-          "value": "Not at all",
-          "mark": 0
-        },
-        {
-          "value": "Several days",
-          "mark": 1
-        },
-        {
-          "value": "More than half the days",
-          "mark": 2
-        },
-        {
-          "value": "Nearly every day",
-          "mark": 3
-        }
-      ]
-    },
-    {
-      "number": 6,
-      "question": "Becoming easily annoyed or irritable",
-      "answers": [
-        {
-          "value": "Not at all",
-          "mark": 0
-        },
-        {
-          "value": "Several days",
-          "mark": 1
-        },
-        {
-          "value": "More than half the days",
-          "mark": 2
-        },
-        {
-          "value": "Nearly every day",
-          "mark": 3
-        }
-      ]
-    },
-    {
-      "number": 7,
-      "question": "Feeling afraid, as if something awful might happen",
-      "answers": [
-        {
-          "value": "Not at all",
-          "mark": 0
-        },
-        {
-          "value": "Several days",
-          "mark": 1
-        },
-        {
-          "value": "More than half the days",
-          "mark": 2
-        },
-        {
-          "value": "Nearly every day",
-          "mark": 3
-        }
-      ]
-    }
-]
+const questions = test2;
 
 export default function Test2() {
+  const params = useParams();
+  const navigate = useNavigate();
+
+  const [answers, setAnswers] = React.useState({});
+  const onSelectAnswer = (e, index) => {
+    const mark = e.target.value;
+    setAnswers(prev => (
+      {
+        ...prev, 
+        [index]: Number(mark)
+      }
+    ));
+  }
+
+  const onSubmit = async () => {
+    let user_id = ''
+    if (params && params.user_id) {
+      user_id = params.user_id
+    } else {
+      let userFromStorage = sessionStorage.getItem('user');
+      userFromStorage = JSON.parse(userFromStorage);
+      user_id = userFromStorage._id
+    }
+    if (!user_id) {
+      return navigate('/login')
+    }
+    const attendedAnswersLength = Object.keys(answers).length;
+    if (attendedAnswersLength !== test2.length) {
+      alert('Please answer all answers!!!');
+      return
+    }
+    const sum = Object.values(answers).reduce((a, b) => a + b, 0);
+    console.log(sum)
+    let user = await fetch(`${process.env.REACT_APP_SERVER_URL}/api/user/update/prisoner/test`, {
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      method: "PUT",
+      body: JSON.stringify({
+        _id: user_id,
+        mark: sum,
+        type: 'GAD'
+      })
+    })
+    user = await user.json();
+    console.log('user ', user);
+    return navigate(`/users/prisoner/${user._id}`);
+  }
+
   return (
     <div>
       <h1>Test 2</h1>
@@ -168,15 +65,14 @@ export default function Test2() {
           <div className="answers">
             {question.answers.map((answer, i) => (
               <label key={i}>
-                
-                <input class="input" type="radio" name={`question${index}`} value={answer.mark} />
+                <input class="input" type="radio" name={`question${index}`} value={answer.mark} onChange={e => onSelectAnswer(e, question.number)} />
                 {answer.value}
               </label>
             ))}
           </div>
         </div>
       ))}
-      <button className='submit-button'>Submit</button>
+      <button className='submit-button' onClick={onSubmit}>Submit</button>
     </div>
   )
 }

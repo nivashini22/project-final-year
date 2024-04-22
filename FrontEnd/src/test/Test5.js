@@ -1,230 +1,60 @@
 import React from 'react'
+import { test5 } from '../helpers/data'
+import { useParams, useNavigate } from "react-router-dom";
 
-const questions = [
-  {
-    "number": 1,
-    "question": "You unpack an appliance you have just bought, plug it in, and discover that it doesn't work",
-    "answers": [
-      {
-        "value": "Not at all ",
-        "mark": 0
-      },
-      {
-        "value": "Little",
-        "mark": 1
-      },
-      {
-        "value": "Moderate ",
-        "mark": 2
-      },
-      {
-        "value": "Very much",
-        "mark": 3
-      }
-    ]
-  },
-  {
-      "number": 2,
-      "question": "Being singled out for a correction, while the actions of others go unnoticed",
-      "answers": [
-        {
-          "value": "Not at all ",
-          "mark": 0
-        },
-        {
-          "value": "Little",
-          "mark": 1
-        },
-        {
-          "value": "Moderate ",
-          "mark": 2
-        },
-        {
-          "value": "Very much",
-          "mark": 3
-        }
-      ]
-    },
-    {
-      "number": 3,
-      "question": "Getting your car stuck in the mud or sand",
-      "answers": [
-        {
-          "value": "Not at all ",
-          "mark": 0
-        },
-        {
-          "value": "Little",
-          "mark": 1
-        },
-        {
-          "value": "Moderate ",
-          "mark": 2
-        },
-        {
-          "value": "Very much",
-          "mark": 3
-        }
-      ]
-    },
-    {
-      "number": 4,
-      "question": "You are talking to someone and they don't answer you ",
-      "answers": [
-        {
-          "value": "Not at all ",
-          "mark": 0
-        },
-        {
-          "value": "Little",
-          "mark": 1
-        },
-        {
-          "value": "Moderate ",
-          "mark": 2
-        },
-        {
-          "value": "Very much",
-          "mark": 3
-        }
-      ]
-    },
-    {
-      "number": 5,
-      "question": "While you are struggling to carry four cups of coffee to your table at a cafeteria, someone bumps into you, spilling the coffee",
-      "answers": [
-        {
-          "value": "Not at all ",
-          "mark": 0
-        },
-        {
-          "value": "Little",
-          "mark": 1
-        },
-        {
-          "value": "Moderate ",
-          "mark": 2
-        },
-        {
-          "value": "Very much",
-          "mark": 3
-        }
-      ]
-    },
-    {
-      "number": 6,
-      "question": "You are hounded by a sales person from the moment you walk into the store",
-      "answers": [
-        {
-          "value": "Not at all ",
-          "mark": 0
-        },
-        {
-          "value": "Little",
-          "mark": 1
-        },
-        {
-          "value": "Moderate ",
-          "mark": 2
-        },
-        {
-          "value": "Very much",
-          "mark": 3
-        }
-      ]
-    },
-    {
-      "number": 7,
-      "question": "Your car is stalled at a traffic light, and the person behind you keeps blowing his horn  ",
-      "answers": [
-        {
-          "value": "Not at all ",
-          "mark": 0
-        },
-        {
-          "value": "Little",
-          "mark": 1
-        },
-        {
-          "value": "Moderate ",
-          "mark": 2
-        },
-        {
-          "value": "Very much",
-          "mark": 3
-        }
-      ]
-    },
-    {
-      "number": 8,
-      "question": "You are trying to concentrate, but a person near you is tapping their foot",
-      "answers": [
-        {
-          "value": "Not at all ",
-          "mark": 0
-        },
-        {
-          "value": "Little",
-          "mark": 1
-        },
-        {
-          "value": "Moderate ",
-          "mark": 2
-        },
-        {
-          "value": "Very much",
-          "mark": 3
-        }
-      ]
-    },
-    {
-      "number": 9,
-      "question": "You have had a busy day, and the person you live with starts to complain about how you forgot to do something you agreed to",
-      "answers": [
-        {
-          "value": "Not at all ",
-          "mark": 0
-        },
-        {
-          "value": "Little",
-          "mark": 1
-        },
-        {
-          "value": "Moderate ",
-          "mark": 2
-        },
-        {
-          "value": "Very much",
-          "mark": 3
-        }
-      ]
-    },
-    {
-      "number": 10,
-      "question": "Stepping on a lump of chewing gum ",
-      "answers": [
-        {
-          "value": "Not at all ",
-          "mark": 0
-        },
-        {
-          "value": "Little",
-          "mark": 1
-        },
-        {
-          "value": "Moderate ",
-          "mark": 2
-        },
-        {
-          "value": "Very much",
-          "mark": 3
-        }
-      ]
-    }
-]
-
+const questions = test5;
 
 export default function Test5() {
+  const params = useParams();
+  const navigate = useNavigate();
+
+  const [answers, setAnswers] = React.useState({});
+  const onSelectAnswer = (e, index) => {
+    const mark = e.target.value;
+    setAnswers(prev => (
+      {
+        ...prev, 
+        [index]: Number(mark)
+      }
+    ));
+  }
+
+  const onSubmit = async () => {
+    let user_id = ''
+    if (params && params.user_id) {
+      user_id = params.user_id
+    } else {
+      let userFromStorage = sessionStorage.getItem('user');
+      userFromStorage = JSON.parse(userFromStorage);
+      user_id = userFromStorage._id
+    }
+    if (!user_id) {
+      return navigate('/login')
+    }
+    const attendedAnswersLength = Object.keys(answers).length;
+    if (attendedAnswersLength !== test5.length) {
+      alert('Please answer all answers!!!');
+      return
+    }
+    const sum = Object.values(answers).reduce((a, b) => a + b, 0);
+    console.log(sum)
+    let user = await fetch(`${process.env.REACT_APP_SERVER_URL}/api/user/update/prisoner/test`, {
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      method: "PUT",
+      body: JSON.stringify({
+        _id: user_id,
+        mark: sum,
+        type: 'Anger'
+      })
+    })
+    user = await user.json()
+    console.log('user ', user);
+    return navigate(`/users/prisoner/${user._id}`);
+  }
+
   return (
     <div>
     <h1>Test 5</h1>
@@ -234,16 +64,15 @@ export default function Test5() {
         <p className="question">{question.number}. {question.question}</p>
         <div className="answers">
           {question.answers.map((answer, i) => (
-            <label key={i}>
-              
-              <input class="input" type="radio" name={`question${index}`} value={answer.mark} />
+            <label key={i}>              
+              <input class="input" type="radio" name={`question${index}`} value={answer.mark} onChange={e => onSelectAnswer(e, question.number)}/>
               {answer.value}
             </label>
           ))}
         </div>
       </div>
     ))}
-    <button className='submit-button'>Submit</button>
+    <button className='submit-button' onClick={onSubmit}>Submit</button>
   </div>
   )
 }

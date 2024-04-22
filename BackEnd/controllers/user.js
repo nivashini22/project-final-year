@@ -149,3 +149,57 @@ exports.updateUserPrisonerVideo = async (req, res) => {
   )
   return res.status(200).json(user);
 }
+
+exports.updateTestScore = async (req, res) => {
+  // const userz = await User.findOneAndUpdate(
+  //   { _id: req.body._id },
+  //   { $set: { 'isPrisoner.test_score': {
+  //     BDI: {
+  //       isAttended: false,
+  //       mark: 0
+  //     },
+  //     GAD: {
+  //       isAttended: false,
+  //       mark: 0
+  //     },
+  //     Stress: {
+  //       isAttended: false,
+  //       mark: 0
+  //     },
+  //     SAS: {
+  //       isAttended: false,
+  //       mark: 0
+  //     },
+  //     Anger: {
+  //       isAttended: false,
+  //       mark: 0
+  //     }
+  //   } } },
+  // )
+  // return res.status(200).json(userz);
+
+  const { type, mark, _id } = req.body;
+  let key = '';
+  const test =  {
+    isAttended: true,
+    mark
+  }
+  if (type == 'BDI') {
+    key = 'isPrisoner.test_score.BDI';
+  } else if (type == 'GAD') {
+    key = 'isPrisoner.test_score.GAD';
+  } else if (type == 'Stress') {
+    key = 'isPrisoner.test_score.Stress';
+  } else if (type == 'SAS') {
+    key = 'isPrisoner.test_score.SAS';
+  } else if (type == 'Anger') {
+    key = 'isPrisoner.test_score.Anger';
+  } else {
+
+  }
+  const user = await User.findOneAndUpdate(
+    { _id },
+    { $set: { [key]: test } },
+  )
+  return res.status(200).json(user);
+}

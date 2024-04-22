@@ -82,11 +82,11 @@ function App() {
         <Route path="/admin/login" element={<LoginPage type="admin" />} />
         <Route path="/logout" element={<Logout />} />
         <Route path="/test" element={<Testui />} />
-        <Route path='/test/test1' element={<Test1 />} />
-        <Route path='/test/test2' element={<Test2 />} />
-        <Route path='/test/test3' element={<Test3 />} />
-        <Route path='/test/test4' element={<Test4 />} />
-        <Route path='/test/test5' element={<Test5 />} />
+        <Route path='/test/1/:user_id' element={<Test1 />} />
+        <Route path='/test/2/:user_id' element={<Test2 />} />
+        <Route path='/test/3/:user_id' element={<Test3 />} />
+        <Route path='/test/4/:user_id' element={<Test4 />} />
+        <Route path='/test/5/:user_id' element={<Test5 />} />
 
 
               
